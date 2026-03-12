@@ -110,6 +110,7 @@ jobs:
           bash scripts/deploy-soroban-testnet.sh \
             --network testnet \
             --interval 300 \
+            --no-continuous \
             --debug
         env:
           SOROBAN_SECRET_KEY: ${{ secrets.SOROBAN_SECRET_KEY }}
