@@ -46,9 +46,8 @@ impl Patcher {
                 // syn columns are Unicode-aware char offsets on that line
                 // But we need to be careful about tab widths etc.
                 // For now assuming 1 char = 1 column.
-                let mut col_counter = 0;
                 let line_text = &source[current_offset..];
-                for (j, c2) in line_text.char_indices() {
+                for (col_counter, (j, c2)) in line_text.char_indices().enumerate() {
                     if col_counter == patch.start_column {
                         start_offset = Some(current_offset + j);
                         break;
@@ -56,14 +55,12 @@ impl Patcher {
                     if c2 == '\n' {
                         break;
                     }
-                    col_counter += 1;
                 }
             }
 
             if current_line == patch.end_line && end_offset.is_none() {
-                let mut col_counter = 0;
                 let line_text = &source[current_offset..];
-                for (j, c2) in line_text.char_indices() {
+                for (col_counter, (j, c2)) in line_text.char_indices().enumerate() {
                     if col_counter == patch.end_column {
                         end_offset = Some(current_offset + j);
                         break;
@@ -71,7 +68,6 @@ impl Patcher {
                     if c2 == '\n' {
                         break;
                     }
-                    col_counter += 1;
                 }
             }
 

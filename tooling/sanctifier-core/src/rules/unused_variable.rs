@@ -10,6 +10,12 @@ impl UnusedVariableRule {
     }
 }
 
+impl Default for UnusedVariableRule {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Rule for UnusedVariableRule {
     fn name(&self) -> &str {
         "unused_variable"

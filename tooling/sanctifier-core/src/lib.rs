@@ -17,7 +17,6 @@ pub use rules::{Rule, RuleRegistry, RuleViolation, Severity};
 // Redundant imports removed
 use crate::rules::arithmetic_overflow::ArithVisitor;
 
-const DEFAULT_APPROACHING_THRESHOLD: f64 = 0.8;
 const DEFAULT_STRICT_THRESHOLD: f64 = 0.9;
 fn with_panic_guard<F, R>(f: F) -> R
 where
