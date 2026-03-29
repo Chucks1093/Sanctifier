@@ -161,6 +161,8 @@ mod tests {
         assert!(codes.iter().any(|c| c.code == STORAGE_COLLISION));
         assert!(codes.iter().any(|c| c.code == UNSAFE_PATTERN));
         assert!(codes.iter().any(|c| c.code == CUSTOM_RULE_MATCH));
+        assert!(codes.iter().any(|c| c.code == EVENT_INCONSISTENCY));
         assert!(codes.iter().any(|c| c.code == SEP41_INTERFACE_DEVIATION));
+        assert!(codes.iter().any(|c| c.code == HARDCODED_SECRET_KEY));
     }
 }
