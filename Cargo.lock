@@ -998,6 +998,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582"
 
 [[package]]
+name = "flashloan-token"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk 20.5.0",
+]
+
+[[package]]
 name = "float-cmp"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3637,6 +3644,13 @@ checksum = "5ac8b6f42ead25368cf5b098aeb3dc8a1a2c05a3eee8a9a1a68c640edbfc79d9"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "uups-proxy"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk 20.5.0",
 ]
 
 [[package]]
