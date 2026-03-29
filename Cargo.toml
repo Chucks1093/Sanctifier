@@ -12,6 +12,7 @@ members = [
     "contracts/my-contract",
     "contracts/timelock",
     "contracts/multisig",
+    "contracts/vesting",
 ]
 resolver = "2"
 
