@@ -104,6 +104,7 @@ pub(crate) struct FileAnalysisResult {
     pub(crate) sep41_checked_contracts: Vec<String>,
     pub(crate) sep41_issues: Vec<sanctifier_core::Sep41Issue>,
     pub(crate) contractimport_issues: Vec<sanctifier_core::ContractImportMismatchIssue>,
+    pub(crate) variable_shadowing_violations: Vec<sanctifier_core::RuleViolation>,
     pub(crate) timed_out: bool,
 }
 
@@ -255,6 +256,7 @@ pub fn exec(args: AnalyzeArgs) -> anyhow::Result<()> {
     let mut sep41_checked_contracts = Vec::new();
     let mut sep41_issues = Vec::new();
     let mut contractimport_issues = Vec::new();
+    let mut variable_shadowing_violations = Vec::new();
     let mut timed_out_files: Vec<String> = Vec::new();
 
     for r in results {
@@ -274,6 +276,7 @@ pub fn exec(args: AnalyzeArgs) -> anyhow::Result<()> {
         sep41_checked_contracts.extend(r.sep41_checked_contracts);
         sep41_issues.extend(r.sep41_issues);
         contractimport_issues.extend(r.contractimport_issues);
+        variable_shadowing_violations.extend(r.variable_shadowing_violations);
         if r.timed_out {
             timed_out_files.push(r.file_path);
         }
@@ -296,6 +299,7 @@ pub fn exec(args: AnalyzeArgs) -> anyhow::Result<()> {
         + truncation_bounds_issues.len()
         + sep41_issues.len()
         + contractimport_issues.len()
+        + variable_shadowing_violations.len()
         + timed_out_files.len();
 
     let has_critical = auth_gaps
@@ -379,7 +383,7 @@ pub fn exec(args: AnalyzeArgs) -> anyhow::Result<()> {
             .unwrap_or(false);
 
     let timestamp = chrono_timestamp();
-    let duration_ms = start.elapsed().as_millis() as u64;
+    let _duration_ms = start.elapsed().as_millis() as u64;
 
     let webhook_payload = ScanWebhookPayload {
         event: "scan.completed",
@@ -596,6 +600,23 @@ pub fn exec(args: AnalyzeArgs) -> anyhow::Result<()> {
             );
             println!("      Call: {}", issue.call_expression);
             println!("      Location: {}", issue.location);
+            println!("      Message: {}", issue.message);
+        }
+    }
+    if variable_shadowing_violations.is_empty() {
+        println!("{} No variable shadowing detected.", "✅".green());
+    } else {
+        println!("\n{} Found Variable Shadowing issues!", "⚠️".yellow());
+        for violation in &variable_shadowing_violations {
+            println!(
+                "   {} [S006] {}",
+                "->".red(),
+                violation.message.bold()
+            );
+            println!("      Location: {}", violation.location);
+            if let Some(suggestion) = &violation.suggestion {
+                println!("      Suggestion: {}", suggestion);
+            }
         }
     }
     let total_upgrade_findings: usize = upgrade_reports.iter().map(|r| r.findings.len()).sum();
@@ -784,6 +805,13 @@ pub(crate) fn analyze_single_file(
         i.location = format!("{}:{}", file_name, i.location);
     }
     res.unhandled_results = r;
+
+    // Scan for variable shadowing using the rule system
+    let mut vs = analyzer.run_rule(content, "variable_shadowing");
+    for v in &mut vs {
+        v.location = format!("{}:{}", file_name, v.location);
+    }
+    res.variable_shadowing_violations = vs;
 
     let mut up = analyzer.analyze_upgrade_patterns(content);
     for f in &mut up.findings {
