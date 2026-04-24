@@ -93,12 +93,9 @@ export function FindingsList({ findings, severityFilter, codeFilter = "" }: Find
   }, [codeFilter, findings, severityFilter]);
 
   // Scroll back to top whenever the filter changes.
-  const prevFiltersRef = useRef(`${severityFilter}:${codeFilter}`);
-  const currentFilters = `${severityFilter}:${codeFilter}`;
-  if (prevFiltersRef.current !== currentFilters) {
-    prevFiltersRef.current = currentFilters;
+  useEffect(() => {
     listRef.current?.scrollToItem(0);
-  }
+  }, [severityFilter, codeFilter]);
 
   const Row = useCallback(
     ({ index, style }: ListChildComponentProps) => (
