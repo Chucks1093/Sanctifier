@@ -88,6 +88,15 @@
 - Integration examples
 - Troubleshooting
 
+### Contracts Fixture Catalog
+
+**[contracts/README.md](contracts/README.md)**
+
+- Per-contract ownership map
+- Event-emission fixture references
+- Storage-collision fixture references
+- Unhandled-`Result` fixture references
+
 ### Sanctifier CLI Deploy Command
 
 **Location:** `tooling/sanctifier-cli/src/commands/deploy.rs`
