@@ -88,41 +88,7 @@
 - Integration examples
 - Troubleshooting
 
-### Contracts Fixture Catalog
 
-**[contracts/README.md](contracts/README.md)**
-
-- Per-contract ownership map
-- Event-emission fixture references
-- Storage-collision fixture references
-- Unhandled-`Result` fixture references
-### Frontend Report and Offline Behavior
-
-**[frontend/docs/report-export.md](frontend/docs/report-export.md)**  
-**[frontend/docs/offline-dev-mode.md](frontend/docs/offline-dev-mode.md)**
-**[frontend/docs/self-hosting.md](frontend/docs/self-hosting.md)**
-
-- Report export behavior (PDF/CSV/JSON)
-- Offline/local JSON workflow vs contract-upload mode
-- Self-hosting runtime boundaries and safe defaults
-- Contributor guardrails for frontend parsing and export paths
-
-### Finding-Code Fixtures
-
-**[contracts/fixtures/finding-codes/README.md](contracts/fixtures/finding-codes/README.md)**
-
-- Fixture matrix for finding codes `S001` through `S012`
-- Upgrade/admin risk fixture notes for hardened validation paths
-- SEP-41 conformance fixture entrypoint: `s012_token_interface.rs`
-
-### Contract Versioning Conventions
-
-**[contracts/fixtures/versioning/README.md](contracts/fixtures/versioning/README.md)**
-
-- `CONTRACT_VERSION` constant and `get_version` / `migrate` convention
-- Named test fixtures: `fixture_empty_pool`, `fixture_v1_funded_pool`, `fixture_v2_pool`, `fixture_initialized`, `fixture_active`
-- Coverage matrix for all versioning properties (stamp-on-init, idempotency, migration chain, replay prevention)
-- Step-by-step guide for contributors adding a new schema version
 
 ### Sanctifier CLI Deploy Command
 
